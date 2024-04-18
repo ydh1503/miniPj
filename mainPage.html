@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>우린아직어색하조</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+
+        body {
+            font-family: "Do Hyeon", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 20px;
+        }
+
+        .wrap {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .teamname {
+            background-color: black;
+            color: white;
+
+            padding: 10px 5px 5px 0px;
+        }
+
+        .teamwrap {
+            width: 50%;
+            height: 80%;
+            padding: 10px 20px 10px 20px;
+            margin: 10px 10px 10px 10px;
+        }
+
+        .teamtitle {
+            background-color: white;
+            margin: 50px 0px 0px auto;
+
+            width: 90%;
+            border-bottom: 2px solid grey;
+        }
+
+        .introcontent {
+            background-color: #f0f0f0;
+            padding: 15px 5px 15px 10px;
+            margin: 0px 0px 0px auto;
+
+            width: 85%;
+        }
+
+        .teamcards {
+            width: 300px;
+            margin-top: 80px;
+            margin-bottom: auto;
+        }
+
+        .card {
+            cursor: pointer;
+        }
+
+        .commentbox {
+            width: 90%;
+            margin: 2rem 0px 0px auto;
+        }
+
+        /* background-color는 .nav-pills 붙이지 않으면 적용안됨. 찾아보기*/
+        .nav-pills .nav-link.active {
+            color: white;
+            background-color: #2F2E41
+        }
+
+        .nav-link.active:hover {
+            color: wheat;
+        }
+
+        .nav-link.active.ms-2 {
+            background-color: cadetblue;
+        }
+
+        .nav-link.active.ms-2:hover {
+            color: wheat;
+        }
+
+        #img {
+            width: 150px;
+        }
+
+        .btn {
+            background-color: cadetblue;
+            border-color: cadetblue;
+        }
+
+        .btn:hover {
+            color: wheat;
+            background-color: cadetblue;
+            border-color: cadetblue;
+        }
+
+        #me {
+            color: aquamarine;
+        }
+
+        #box {
+            background-color: #eee;
+            height: 3.5rem;
+            border-radius: 3rem;
+        }
+
+        #boxContens {
+            padding-top: 5px;
+            padding-left: 20px;
+        }
+
+        .scroll {
+            overflow-y: scroll;
+            scroll-behavior: smooth;
+            height: 12rem;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #eee;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+    <script type="module">
+        // Firebase SDK 라이브러리 가져오기
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        // Firebase 구성 정보 설정
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyBVZQnKPPINyICCW3vOtmL4TkbZHhCfJRg",
+            authDomain: "sparta-c6a4e.firebaseapp.com",
+            projectId: "sparta-c6a4e",
+            storageBucket: "sparta-c6a4e.appspot.com",
+            messagingSenderId: "1010630195226",
+            appId: "1:1010630195226:web:7987b7f892090658ae79a3",
+            measurementId: "G-6LW2VMJZJ8",
+        };
+
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        // 메시지 보내기, 데이터 베이스 정렬위해 타임스탬프 찍어주기
+        $('#sendMsg').click(async function () {
+            let username = $('#recipient-name').val();
+            let massage = $('#message-text').val();
+            let doc = {
+                'username': username,
+                'massage': massage,
+                timestamp: new Date()
+            };
+            await addDoc(collection(db, "comments"), doc);
+            alert(" 저장 완료");
+            window.location.reload();
+        });
+        // 파이어베이스 데이터
+        let docs = collection(db, "comments");
+        // 데이터 시간 순서로 정렬해서 가져오기
+        let result = await getDocs(query(docs, orderBy("timestamp", "desc")));
+        result.forEach((doc) => {
+            let row = doc.data();
+            let username = row["username"];
+            let massage = row["massage"];
+            console.log(username, massage)
+            //불러온 데이터 코멘트 박스로 집어넣기
+            let temp_html = `
+                                    <div id="box" class="mb-2">
+                                        <div id="boxContens">
+                                            <div id="username" class="d-flex justify-content-between">
+                                                <strong class="text-gray-dark">${username}</strong>
+                                            </div>
+                                            <div id="massage">
+                                                <span class="d-block">${massage}</span>
+                                            </div>
+                                        </div>
+                                    </div>`
+            $("#commentsbox").append(temp_html);
+        });
+    </script>
+</head>
+
+<script type="module">
+    function moveToMyPage(link) {
+        location.replace(link);
+    }
+    $("#team1").on("click", function () {
+        moveToMyPage("./profile1.html");
+    });
+    $("#team2").on("click", function () {
+        moveToMyPage("./profile2.html");
+    });
+    $("#team3").on("click", function () {
+        moveToMyPage("./profile3.html");
+    });
+    $("#team4").on("click", function () {
+        moveToMyPage("./profile4.html");
+    });
+    $("#team5").on("click", function () {
+        moveToMyPage("./profile5.html");
+    });
+
+</script>
+
+
+<body>
+    <div class="wrap">
+        <div class="teamwrap">
+            <h1 class="teamname">우린아직어색하조</h1>
+            <div>
+                <P class="teamtitle">팀 소개</P>
+                <p class="introcontent">[코딩이랑도 친해지고 팀원이랑도 친해지자]</p>
+            </div>
+            <div>
+                <P class="teamtitle">Ground Rules</P>
+                <div class="introcontent">
+                    <p>### 우리 팀 규칙</p>
+                    <li>일정 변경 사항은 단톡방에 남기기</li>
+                    <li>궁금한 것은 바로 바로 물어보기</li>
+                    <p></p>
+                    <p>### 일정표</p>
+                    <li>점심 12:00 ~ 13:00</li>
+                    <li>점심 먹고 현 상황 체크</li>
+                    <li>저녁 18:00 ~ 19:00</li>
+                    <li>저녁 먹고 오늘 한 일 체크</li>
+                </div>
+            </div>
+            <div>
+                <P class="teamtitle">Goals</P>
+                <div class="introcontent">
+                    <li>4/15 S.A 작성하기</li>
+                    <li>4/16 사전캠프 모두 완강</li>
+                    <li>4/17 페이지 작성</li>
+                    <li>4/18 최종 수정 후 녹화하기</li>
+                    <li>4/19 발표</li>
+                </div>
+            </div>
+            <!-- 코멘트 버튼, 모달창 -->
+            <div class="commentbox">
+                <div class="comment-button">
+                    <button type="button" id="commentbtn" class="btn btn-secondary" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal" data-bs-whatever="@mdo">코멘트 남기기</button>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">뭐든 말해보아요!</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="recipient-name" class="col-form-label">닉네임</label>
+                                            <input type="text" class="form-control" id="recipient-name">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="message-text" class="col-form-label">메시지</label>
+                                            <textarea class="form-control" id="message-text"></textarea>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                    <button id="sendMsg" type="button" class="btn btn-secondary">보내기</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 코멘트 박스 -->
+                <div>
+                    <div id="commentBox" class="my-3 p-3 bg-body rounded shadow-sm">
+                        <h6 class="border-bottom pb-2 mb-0">인사해 주세요!</h6>
+                        <div class="row d-flex text-body-secondary pt-3">
+                            <div class="px-2 scroll">
+                                <div id="commentsbox" class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="teamcards">
+            <div class="row row-cols-1 row-cols-md-2 g-5">
+                <div class="col">
+                    <div class="card h-100" id="team1">
+                        <img src="./source/team1.jpg" class="card-img-top" alt="팀원1">
+                        <div class="card-body">
+                            <h5 class="card-title">한민엽</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100" id="team2">
+                        <img src="./source/team2.jpg" class="card-img-top" alt="팀원2">
+                        <div class="card-body">
+                            <h5 class="card-title">진수현</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100" id="team3">
+                        <img src="./source/team3.jpg" class="card-img-top" alt="팀원3">
+                        <div class="card-body">
+                            <h5 class="card-title">채유일</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100" id="team4">
+                        <img src="./source/team4.jpg" class="card-img-top" alt="팀원4">
+                        <div class="card-body">
+                            <h5 class="card-title">윤동협</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100" id="team5">
+                        <img src="./source/team5.jpg" class="card-img-top" alt="팀원5">
+                        <div class="card-body">
+                            <h5 class="card-title">유지원</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지원's profile</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap'); /* 웨이브 파도체 폰트 링크 추가 */
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* 최소 높이 설정 */
+            overflow-y: auto; /* 필요 시 스크롤 허용 */
+            margin: 0;
+            font-family: 'Do Hyeon', sans-serif;
+            background-color: #f0f0f0;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            max-width: 600px; /* 너비를 600px로 설정, 큰 화면에 적합하도록 조정 */
+            margin: 0 auto;
+            padding: 20px;
+            width: 100%;
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 40px; /* 제목 폰트 크기 증가 */
+            margin-bottom: 20px;
+            overflow: auto;
+        }
+        
+        .image-container, .text-container {
+            border: 3px solid pink;
+            padding: 15px;
+            border-radius: 10px;
+            width: 100%;
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        
+        .text-container p {
+            position: relative;
+            font-size: 22px; /* 소개글 폰트 크기 증가 */
+            padding-left: 25px;
+            line-height: 1.5;
+            margin-bottom: 5px;
+        }
+        
+        .text-container p::before {
+            content: "\2022";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #333;
+            font-size: 22px;
+        }
+
+        .buttons {
+            position: fixed;
+            right: 20px;
+            top: 20px; /* 버튼을 위쪽으로 올림 */
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 999;
+        }
+
+        .button {
+            background-color: pink; /* 버튼 색상을 분홍색으로 변경 */
+            color: #000; /* 버튼 글자색을 검정색으로 변경 */
+            padding: 12px 27px; /* 버튼의 크기를 조정 */
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            position: relative; /* 버튼 왼쪽에 선을 추가하기 위해 position 속성 추가 */
+            font-size: 20px; /* 버튼 안에 위치한 글자 크기 조정 */
+        }
+
+        .button:hover {
+            background-color: #ff69b4; /* 마우스 호버 시 버튼 색상 변경 */
+        }
+        
+        @media screen and (max-width: 768px) {
+            .container {
+                width: 90%; /* 화면이 작을 때는 컨테이너 너비를 90%로 조정 */
+                padding: 10px;
+            }
+        
+            .title p {
+                font-size: 24px; /* 더 작은 화면에서 폰트 크기 조정 */
+            }
+        
+            .text-container p {
+                font-size: 18px; /* 더 작은 화면에서 텍스트 크기 조정 */
+            }
+
+            .buttons {
+                display: none; /* 768px 이하일 때, .buttons 의 클래스 요소를 숨김 작은 화면에 버튼 표시되지 않음 */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="buttons">
+            <div class="button" onclick="window.location.href='./mainpage.html'" >메인</div>
+            <div class="button" onclick="window.location.href='./profile1.html'">한민엽</div>
+            <div class="button" onclick="window.location.href='./profile2.html'">진수현</div>
+            <div class="button" onclick="window.location.href='./profile3.html'">채유일</div>
+            <div class="button" onclick="window.location.href='./profile4.html'">윤동협</div>
+            <div class="button" onclick="window.location.href='./profile5.html'">유지원</div>
+        </div>
+        <div id="section1" class="title">
+            <p>안녕하세요 ! Node.js 5기 유지원입니다 !</p>
+        </div>
+        <div class="image-container">
+            <img src="./images5/유지원1.jpg" alt="유지원 사진">
+        </div>
+        <div id="section2" class="text-container">
+            <p>MBTI : ESTJ</p>
+            <p>장점 : 일의 순서를 정하고 행하는 걸 좋아하며 밝고 긍정적임</p>
+            <p>협업스타일 : 서로에게 부족한 점이 있으면 거리낌 없이 알려주려 노력하고, 같이 발전하려 하는 스타일</p>
+            <p>블로그 : 는 아직 없습니다!</p>
+            <p>github : <a href="https://github.com/jellycreammy">https://github.com/jellycreammy</a></p>
+            <p>TMI : 저는 비숑과 미니핀을 키우고 있어요! 회의때 조금 시끄럽더라도 양해부탁드려요!</p>
+        </div>
+        <!-- 이하 각 섹션에 맞는 내용 추가 -->
+    </div>
+</body>
+</html>

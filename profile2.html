@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>수현's profile</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+
+        #header {
+            width: 1300px;
+            margin: 0px auto auto auto;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .all {
+            font-family: "Nanum Gothic", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+
+            width: 1100px;
+            margin: 100px auto auto auto;
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            justify-content: space-between;
+
+        }
+
+        .slider {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            float: left;
+            width: 100%;
+            position: relative;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        .image {
+            width: 500px;
+        }
+
+        .text {
+            width: 500px;
+            display: flex;
+            align-content: center;
+            flex-direction: column;
+        }
+
+
+        .titlebox {
+            font-size: 24pt;
+            margin-top: 30pt;
+        }
+
+        .textbox {
+
+            position: relative;
+            top: 60px;
+
+                font-size: 15pt;
+            width: 100%;
+            line-height: 1.5;
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            justify-content: left;
+
+        }
+
+        .textbox1 {
+            width: 110px;
+        }
+
+        .link {
+            color: black;
+        }
+
+        #homes {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: left;
+        }
+
+        .home {
+            width:20px;
+        }
+
+
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <header id="header" class="p-3 text-bg-dark">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="profile1.html" class="nav-link px-2 text-secondary">한민엽</a></li>
+                    <li class="tomypage"><a href="profile2.html" class="nav-link px-2 text-info">진수현</a></li>
+                    <li><a href="profile3.html" class="nav-link px-2 text-secondary">채유일</a></li>
+                    <li><a href="profile4.html" class="nav-link px-2 text-secondary">윤동협</a></li>
+                    <li><a href="profile5.html" class="nav-link px-2 text-secondary">유지원</a></li>
+                </ul>
+            </div>
+            <div>
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a id="homes" href="mainpage.html" class="nav-link px-2 text-secondary"><img class="home" src="./profile2photo/home.png" alt="home SVG" />&nbsp;Home</a></li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+    </header>
+
+
+    <div class="all">
+        <div class="image">
+            <div class="slider">
+                <div class="slide">
+                    <img src="./profile2photo/pic1.jpg" alt="그림1">
+                </div>
+                <div class="slide">
+                    <img src="./profile2photo/pic2.jpg" alt="그림2">
+                </div>
+                <div class="slide">
+                    <img src="./profile2photo/pic3.jpg" alt="그림3">
+                </div>
+                <div class="slide">
+                    <img src="./profile2photo/pic4.jpg" alt="그림3">
+                </div>
+            </div>
+        </div>
+        <div class="text">
+
+            <div class="titlebox">
+                <h2 class="name">진수현</h2>
+            </div>
+            <div class="textbox">
+                <div class="textbox1">
+                    <p class="mbti">MBTI </p>
+                    <p class="adv">장점 </p>
+                    <p class="coorp">협업스타일 </p>
+                    <p>깃허브 </p>
+                    <p>블로그 </p>
+                    <p>TMI </p>
+                </div>
+                <div class="textbox2">
+                    <p>|&nbsp; &nbsp; ISTP</p>
+                    <p>|&nbsp; &nbsp; 분담받은 일에 책임을 다한다</p>
+                    <p>|&nbsp; &nbsp; 소통과 협력이 제일 중요하다..!!</p>
+                    <p>|&nbsp; &nbsp; <a class="link" href="https://github.com/lemonpie313">github.com/lemonpie313</a></p>
+                    <p>|&nbsp; &nbsp; <a class="link" href="https://lemonpie313.tistory.com/">lemonpie313.tistory.com</a></p>
+                    <p>|&nbsp; &nbsp; 취미는 음악감상 </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const slideCount = slides.length;
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.style.display = 'none');
+            slides[n].style.display = 'block';
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slideCount;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+            showSlide(currentSlide);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showSlide(currentSlide);
+            setInterval(nextSlide, 3000); // 3초마다 자동 슬라이드                
+        });
+    </script>
+</body>
+
+</html>
